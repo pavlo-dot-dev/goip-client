@@ -1,6 +1,6 @@
 {
   "name": "pavlo-dot-dev/goip-client",
-  "description": "Laravel Package - GoIP client",
+  "description": "GoIP Client library PHP",
   "type": "library",
   "license": "MIT",
   "autoload": {

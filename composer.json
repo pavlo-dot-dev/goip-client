@@ -1,0 +1,23 @@
+{
+  "name": "pavlo-dot-dev/goip-client",
+  "description": "Laravel Package - GoIP client",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "PavloDotDev\\GoipClient\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "PAVLO POPOV",
+      "email": "info@pavlo.dev"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "guzzlehttp/guzzle": "^7.7",
+    "spatie/crawler": "^8.0",
+    "symfony/dom-crawler": "^6.3"
+  }
+}

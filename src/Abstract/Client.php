@@ -23,6 +23,7 @@ abstract class Client
         $this->client = new \GuzzleHttp\Client([
             'base_uri' => $this->baseUri,
             'cookies' => $cookieJar,
+            'timeout' => 30,
         ]);
 
         $this->auth($login, $password);

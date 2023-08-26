@@ -8,10 +8,15 @@ readonly class GoipItem
         public string|int $id,
         public string|int $termId,
         public string|int $provider,
-        public string $address,
+        public string $ip,
         public string|int $port,
-        public string|int|null $imsi = null,
-        public string|int|null $imei = null,
+        public string|null $password,
+        public bool $gsmLogin,
+        public bool $voipLogin,
+        public string|null $simNumber,
+        public string|int|null $imsi,
+        public string|int|null $imei,
+        public string|null $carrier,
     ) {
     }
 }

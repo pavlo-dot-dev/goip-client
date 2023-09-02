@@ -43,8 +43,6 @@ abstract class Client
             return;
         }
 
-        echo 'Авторизация!';
-
         $form = $crawler->filter('form[name="login"]')->form();
         $formValues = $form->getValues();
         $formValues['username'] = $login;

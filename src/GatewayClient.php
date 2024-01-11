@@ -8,6 +8,8 @@ use PavloDotDev\GoipClient\Entities\Gateway\Info;
 use PavloDotDev\GoipClient\Entities\Gateway\LineInfo;
 use PavloDotDev\GoipClient\Entities\Gateway\LineSMS;
 use PavloDotDev\GoipClient\Entities\Gateway\LineSMSCollection;
+use PavloDotDev\GoipClient\Entities\Gateway\OnlineInfo;
+use PavloDotDev\GoipClient\Entities\Gateway\OnlineLine;
 use PavloDotDev\GoipClient\Entities\Gateway\SMS;
 use PavloDotDev\GoipClient\Entities\Gateway\USSDStatus;
 use PavloDotDev\GoipClient\Entities\Gateway\USSDStatusCollection;
@@ -15,6 +17,40 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class GatewayClient extends BasicClient
 {
+    public function online(): OnlineInfo
+    {
+        $crawler = $this->request('/default/en_US/status.xml?type=list&ajaxcachebust='.(time() * 1000));
+
+        $rawData = [];
+
+        $crawler
+            ->filter('status > *')
+            ->each(function (Crawler $crawler) use (&$rawData) {
+                $name = $crawler->nodeName();
+                $value = $crawler->innerText();
+                $line = preg_replace("/[^0-9]/", "", explode('_', $name)[0]);
+                $nameWithoutLine = implode('_', array_slice(explode('_', $name), 1));
+
+                if (!isset($rawData[$line])) {
+                    $rawData[$line] = [
+                        'line' => $line,
+                    ];
+                }
+
+                $rawData[$line][$nameWithoutLine] = $value;
+            });
+
+        $lines = [];
+        foreach ($rawData as $item) {
+            $lines[] = new OnlineLine(
+                line: $item['line'],
+                state: $item['line_state'] ?? null,
+            );
+        }
+
+        return new OnlineInfo($lines);
+    }
+
     public function info(): Info
     {
         $crawler = $this->request('/default/en_US/status.html?type=gsm');
